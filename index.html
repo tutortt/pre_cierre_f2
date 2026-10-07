@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anuncio previo al cierre de la Fase de Planeación</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #003d5c 0%, #00597a 50%, #007499 100%);
+            padding: 0; margin: 0; min-height: 100vh;
+            position: relative; overflow-x: hidden;
+        }
+        .floating-particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+        .particle { position: absolute; font-size: 20px; opacity: 0.15; animation: float 15s infinite ease-in-out; }
+        .particle:nth-child(1) { left: 10%; animation-delay: 0s; top: 20%; }
+        .particle:nth-child(2) { left: 20%; animation-delay: 2s; top: 60%; }
+        .particle:nth-child(3) { left: 30%; animation-delay: 4s; top: 80%; }
+        .particle:nth-child(4) { left: 50%; animation-delay: 1s; top: 40%; }
+        .particle:nth-child(5) { left: 70%; animation-delay: 3s; top: 70%; }
+        .particle:nth-child(6) { left: 80%; animation-delay: 5s; top: 30%; }
+        .particle:nth-child(7) { left: 90%; animation-delay: 2.5s; top: 50%; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.15; }
+            25% { transform: translateY(-30px) rotate(90deg); opacity: 0.25; }
+            50% { transform: translateY(-60px) rotate(180deg); opacity: 0.15; }
+            75% { transform: translateY(-30px) rotate(270deg); opacity: 0.25; }
+        }
+        .session-container {
+            width: 100%; margin: 0; background: #ffffff; border-radius: 0;
+            overflow: visible; box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            animation: fadeInUp 0.8s ease-out; position: relative; z-index: 1; min-height: 100vh;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .header-accent {
+            height: 4px;
+            background: linear-gradient(90deg, #39a900, #4cd137, #39a900, #4cd137);
+            background-size: 400% 100%;
+            animation: gradientFlow 4s ease infinite;
+        }
+        @keyframes gradientFlow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        .header-section {
+            background: linear-gradient(135deg, #003d5c 0%, #00597a 50%, #003d5c 100%);
+            padding: 14px 24px 16px;
+            text-align: center;
+            display: flex; flex-direction: column; align-items: center; gap: 7px;
+        }
+        .header-section h1 {
+            color: #ffffff;
+            font-size: clamp(1.05rem, 2.3vw, 1.4rem);
+            font-weight: 700; line-height: 1.3; letter-spacing: 0.3px;
+        }
+        .header-divider {
+            width: 48px; height: 2px;
+            background: linear-gradient(90deg, transparent, #39a900, transparent);
+            border-radius: 2px;
+        }
+        .header-section h3 {
+            color: #a8e063;
+            font-size: clamp(0.78rem, 1.5vw, 0.95rem);
+            font-weight: 600;
+            display: flex; align-items: center; justify-content: center; gap: 8px; line-height: 1.3;
+        }
+        .header-section h3 i { color: #4cd137; font-size: 0.95rem; }
+        .content-wrapper { padding: 20px; }
+        .content-grid {
+            display: grid; grid-template-columns: 1fr; gap: 20px; align-items: stretch;
+        }
+        @media (min-width: 768px) { .content-grid { grid-template-columns: 1.5fr 1fr; } }
+        .main-content { display: flex; flex-direction: column; }
+        .info-box {
+            flex: 1;
+            background: linear-gradient(135deg, #e8f5e9, #f1f8f4);
+            border-left: 4px solid #39a900; border-radius: 8px; padding: 18px 20px;
+            box-shadow: 0 2px 8px rgba(57,169,0,0.1);
+            display: flex; flex-direction: column; justify-content: center; gap: 10px;
+        }
+        .info-box p { color: #2c3e50; font-size: 0.9rem; line-height: 1.6; text-align: justify; }
+        .info-box .saludo { color: #1b5e20; font-weight: 600; text-align: left; margin: 0; }
+        .info-box strong { color: #1b5e20; }
+        .commitments-list { list-style: none; padding: 0; margin-top: 4px; display: flex; flex-direction: column; gap: 9px; }
+        .commitments-list li {
+            display: flex; align-items: flex-start; gap: 10px;
+            color: #2c3e50; font-size: 0.88rem; line-height: 1.5;
+        }
+        .commitments-list li i { color: #39a900; font-size: 0.9rem; margin-top: 3px; flex-shrink: 0; }
+        .sidebar {
+            display: flex; flex-direction: column; align-items: center;
+            justify-content: center; background: transparent; padding: 18px 34px; gap: 14px;
+            overflow: visible;
+        }
+        .sidebar-image {
+            width: 100%; max-width: 340px; height: auto; border-radius: 8px;
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+            cursor: pointer;
+        }
+        .sidebar-image:hover {
+            transform: scale(1.08);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+        }
+        .date-badge {
+            background: linear-gradient(135deg, #003d5c, #00597a);
+            color: #fff; border-radius: 8px; padding: 10px 16px; text-align: center;
+            width: 100%; max-width: 280px; border: 1px solid rgba(57,169,0,0.4);
+        }
+        .date-badge .label { font-size: 0.7rem; opacity: 0.85; text-transform: uppercase; letter-spacing: 0.8px; color: #a8e063; }
+        .date-badge .date { font-size: 1.05rem; font-weight: 700; margin-top: 2px; color: #ffffff; }
+        .sidebar-caption { font-size: 0.7rem; color: #666; text-align: center; }
+        .sidebar-caption a { color: #39a900; text-decoration: none; }
+
+        .quote-section {
+            background:
+                linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.85) 100%),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect fill="%23f4e7d7" width="100" height="100"/><path d="M0,0 L100,100 M100,0 L0,100" stroke="%23e6d4b8" stroke-width="0.5" opacity="0.3"/></svg>');
+            background-color: #f4e7d7;
+            padding: 12px 40px;
+            border-radius: 0;
+            text-align: center;
+            font-style: italic;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.08), inset 0 -2px 8px rgba(0,0,0,0.08);
+            animation: fadeIn 1s ease-out 0.8s both;
+            position: relative; overflow: hidden;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            gap: 6px; margin: 0;
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @media (max-width: 768px) { .quote-section { padding: 10px 20px; gap: 5px; } }
+
+        .quote-section::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background-image:
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(139,90,43,0.03) 2px, rgba(139,90,43,0.03) 3px),
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(139,90,43,0.02) 2px, rgba(139,90,43,0.02) 3px);
+            pointer-events: none; opacity: 0.6;
+        }
+        .quote-section::after {
+            content: '';
+            position: absolute; top: 15px; right: 25px;
+            width: 60px; height: 60px;
+            background: radial-gradient(circle, rgba(139,90,43,0.06) 0%, transparent 60%);
+            border-radius: 50%; pointer-events: none;
+        }
+        .quote-content {
+            position: relative; z-index: 1;
+            display: flex; flex-direction: column; align-items: center; gap: 8px;
+            max-width: 1000px; width: 100%;
+        }
+        .quote-main-wrapper {
+            display: flex; align-items: center; justify-content: center;
+            gap: 25px; flex-wrap: nowrap; width: 100%;
+        }
+        @media (max-width: 768px) {
+            .quote-main-wrapper { flex-direction: column; gap: 8px; }
+        }
+        .quote-text-wrapper {
+            flex: 1; display: flex; flex-direction: column; align-items: center;
+        }
+        .quote-text {
+            position: relative; color: #2d3436;
+            font-size: 0.95rem; margin: 0; line-height: 1.3;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-weight: 500; letter-spacing: 0.3px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05); font-style: italic;
+            background: linear-gradient(to right, #003d5c 0%, #003d5c 100%);
+            background-size: 0% 100%; background-repeat: no-repeat;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: writeTextLoop 6s ease-in-out infinite;
+        }
+        @keyframes writeTextLoop {
+            0% { background-size: 0% 100%; }
+            50% { background-size: 100% 100%; }
+            100% { background-size: 100% 100%; }
+        }
+        .quote-author-wrapper {
+            display: flex; align-items: center; justify-content: center; gap: 12px;
+        }
+        .quote-author {
+            position: relative; color: #5a5a5a; font-size: 0.9rem;
+            font-style: normal; font-weight: 600;
+            display: inline-flex; align-items: center;
+            padding: 5px 0; padding-left: 10px;
+            border-left: 3px solid #39a900; white-space: nowrap;
+        }
+        .quote-author::before { content: '— '; color: #39a900; font-weight: bold; font-size: 0.95rem; }
+        .quote-flourish {
+            margin: 6px 0; width: 90px; height: 2px;
+            background: linear-gradient(to right, transparent, #39a900, transparent);
+            position: relative;
+        }
+        .quote-flourish::before, .quote-flourish::after {
+            content: '◆'; position: absolute; color: #39a900;
+            font-size: 0.65rem; top: -5px; text-shadow: 0 0 5px rgba(57,169,0,0.3);
+        }
+        .quote-flourish::before { left: -14px; }
+        .quote-flourish::after { right: -14px; }
+        .quote-image-container {
+            position: relative; z-index: 1;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        @media (max-width: 768px) { .quote-image-container { display: none; } }
+        .writing-pen-illustration {
+            width: 45px; height: 45px; position: relative;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .feather-emoji {
+            font-size: 2.3rem; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.2));
+            animation: penWiggle 3s ease-in-out infinite; display: block;
+        }
+        @keyframes penWiggle {
+            0%, 100% { transform: rotate(-8deg) translateY(0); }
+            50% { transform: rotate(-12deg) translateY(-5px); }
+        }
+
+        .footer {
+            background: linear-gradient(135deg, #003d5c 0%, #00597a 100%);
+            color: white; padding: 14px 20px; text-align: center;
+        }
+        .footer .frase { color: #4cd137; font-size: 0.95rem; font-weight: 700; margin-bottom: 5px; }
+        .footer .firma { color: #cde8f5; font-size: 0.82rem; font-style: italic; }
+        @media (max-width: 768px) {
+            .content-grid { grid-template-columns: 1fr; }
+            .content-wrapper { padding: 15px; }
+            .info-box, .sidebar { padding: 14px 15px; }
+            .sidebar-image { max-width: 260px; }
+            .quote-section { padding: 10px 20px; }
+            .quote-text { font-size: 0.95rem; line-height: 1.4; }
+            .quote-author { font-size: 0.8rem; padding: 4px 0 4px 8px; border-left-width: 3px; }
+            .quote-flourish { width: 70px; margin: 5px 0; }
+            .quote-main-wrapper { gap: 6px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-particles">
+        <div class="particle">{ }</div>
+        <div class="particle">&lt;/&gt;</div>
+        <div class="particle">[ ]</div>
+        <div class="particle">( )</div>
+        <div class="particle">===</div>
+        <div class="particle">{ }</div>
+        <div class="particle">&lt;/&gt;</div>
+    </div>
+
+    <div class="session-container">
+        <div class="header-accent"></div>
+
+        <div class="header-section">
+            <h1>Tecnología en Análisis y Desarrollo de Software</h1>
+            <div class="header-divider"></div>
+            <h3>
+                <i class="fas fa-hourglass-half"></i>
+                Anuncio previo al cierre de la Fase de Planeación
+            </h3>
+        </div>
+
+        <div class="content-wrapper">
+            <div class="content-grid">
+                <div class="main-content">
+                    <div class="info-box">
+                        <p class="saludo">Cordial saludo, apreciados aprendices:</p>
+
+                        <p>Les recordamos que el <strong>12 de octubre</strong> es la fecha de terminación y cierre de la Fase de Planeación.</p>
+                        <p>Aún están a tiempo de revisar, completar y fortalecer sus entregas. Los invitamos a organizar su trabajo para cumplir con lo establecido en la guía de aprendizaje.</p>
+                        <p>Les sugerimos:</p>
+                        <ul class="commitments-list">
+                            <li><i class="fas fa-circle-exclamation"></i> Verificar que todas las evidencias de la fase estén completas y correctamente cargadas en la plataforma antes de la fecha de cierre.</li>
+                            <li><i class="fas fa-bell"></i> Resolver oportunamente cualquier duda con su instructor, sin esperar al último día.</li>
+                            <li><i class="fas fa-clock"></i> Consultar los canales de comunicación establecidos para recibir la información correspondiente.</li>
+                        </ul>
+                        <p>¡Los animamos a cerrar esta fase con compromiso y dedicación!</p>
+                    </div>
+                </div>
+                <div class="sidebar">
+                    <div class="date-badge">
+                        <div class="label"><i class="fas fa-calendar-check"></i> Cierre de la fase</div>
+                        <div class="date">12 de octubre</div>
+                    </div>
+                    <img src="https://drive.google.com/thumbnail?id=1BH_b_saJs_qIpXFsjKeieQzpI5VAGv0d&sz=w1000" alt="Cierre de la fase" class="sidebar-image">
+                    <p class="sidebar-caption">Imagen SENA – <a href="https://www.sena.edu.co" target="_blank">www.sena.edu.co</a></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="quote-section">
+            <div class="quote-content">
+                <div class="quote-main-wrapper">
+                    <div class="quote-text-wrapper">
+                        <p class="quote-text">Aprender es como remar contra corriente: en cuanto se deja, se retrocede.</p>
+                        <div class="quote-flourish"></div>
+                    </div>
+                    <div class="quote-image-container">
+                        <div class="writing-pen-illustration">
+                            <span class="feather-emoji">🪶</span>
+                        </div>
+                    </div>
+                    <div class="quote-author-wrapper">
+                        <div class="quote-author">&nbsp;Edward Benjamin Britten</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="header-accent"></div>
+
+        <div class="footer">
+            <p class="frase">¡Recuerden: el 12 de octubre es el cierre de la Fase de Planeación!</p>
+            <p class="firma"><i class="fas fa-user-tie"></i> Fabián Alexander García Martínez<br></p>
+        </div>
+
+        <div class="header-accent"></div>
+    </div>
+</body>
+</html>
